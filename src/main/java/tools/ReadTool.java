@@ -43,10 +43,11 @@ public class ReadTool{
                                 .build())
                 .build();
     }
-    public static String execute(String arguments) {
+    public static void execute(String arguments) {
+        File objectFile = new File(arguments);
         try {
-            // Parse the JSON string
-            return Files.readString(Path.of(arguments));
+            String fileContent = Files.readString(objectFile.toPath());
+            System.out.println(fileContent);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

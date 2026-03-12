@@ -27,7 +27,7 @@ public class ToolsManager {
 
                 switch (functionName) {
                     case "Read" -> {
-                        System.out.println(ReadTool.execute(arguments));
+                        ReadTool.execute(arguments);
                     }
                     default -> throw new RuntimeException("Unknown function: " + functionName);
                 }
