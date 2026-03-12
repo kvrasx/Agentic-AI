@@ -4,6 +4,8 @@ import com.openai.models.chat.completions.ChatCompletion;
 import com.openai.models.chat.completions.ChatCompletionCreateParams;
 import tools.ToolsManager;
 
+import static tools.ToolsManager.toolCallLoop;
+
 public class Main {
     public static void main(String[] args) {
         if (args.length < 2 || !"-p".equals(args[0])) {
@@ -30,7 +32,8 @@ public class Main {
 
         ChatCompletion response = client.chat().completions().create(
                 ChatCompletionCreateParams.builder()
-                        .model("anthropic/claude-haiku-4.5")
+//                        .model("anthropic/claude-haiku-4.5")
+                        .model("gpt-oss-20b")
                         .addUserMessage(prompt)
                         .tools(ToolsManager.getAvailableTools())
                         .build()
@@ -39,6 +42,7 @@ public class Main {
         if (response.choices().isEmpty()) {
             throw new RuntimeException("no choices in response");
         }
+        toolCallLoop(response);
 
         // You can use print statements as follows for debugging, they'll be visible when running tests.
         System.err.println("Logs from your program will appear here!");

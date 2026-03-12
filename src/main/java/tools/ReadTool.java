@@ -8,6 +8,10 @@ import com.openai.models.FunctionDefinition;
 import com.openai.models.FunctionParameters;
 import com.openai.models.chat.completions.ChatCompletionTool;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.Map;
 
 import static com.openai.core.JsonValue.*;
@@ -38,5 +42,14 @@ public class ReadTool{
                                 .parameters(getReadParameters())
                                 .build())
                 .build();
+    }
+    public static String execute(String arguments) {
+        try {
+            // Parse the JSON string
+            return Files.readString(Path.of(arguments));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
     }
 };
