@@ -55,7 +55,7 @@ public class ReadTool{
             throw new RuntimeException("Failed to parse arguments", e);
         }
 
-        String filePath = argsNode.get("file_path").asText();
+        String filePath = argsNode.get("filepath").asText();
         File objectFile = new File(filePath);
         try {
             String fileContent = Files.readString(objectFile.toPath());
