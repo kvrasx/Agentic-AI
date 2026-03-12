@@ -3,6 +3,8 @@ package tools;
 import com.fasterxml.jackson.annotation.JsonClassDescription;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyDescription;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.openai.core.JsonValue;
 import com.openai.models.FunctionDefinition;
 import com.openai.models.FunctionParameters;
@@ -44,7 +46,17 @@ public class ReadTool{
                 .build();
     }
     public static void execute(String arguments) {
-        File objectFile = new File(arguments);
+        JsonNode argsNode;
+        ObjectMapper mapper = new ObjectMapper();
+
+        try {
+            argsNode = mapper.readTree(arguments);
+        } catch (Exception e) {
+            throw new RuntimeException("Failed to parse arguments", e);
+        }
+
+        String filePath = argsNode.get("file_path").asText();
+        File objectFile = new File(filePath);
         try {
             String fileContent = Files.readString(objectFile.toPath());
             System.out.println(fileContent);
