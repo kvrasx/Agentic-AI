@@ -1,9 +1,6 @@
 import com.openai.client.OpenAIClient;
 import com.openai.client.okhttp.OpenAIOkHttpClient;
-import com.openai.models.chat.completions.ChatCompletion;
-import com.openai.models.chat.completions.ChatCompletionCreateParams;
-import com.openai.models.chat.completions.ChatCompletionMessageParam;
-import com.openai.models.chat.completions.ChatCompletionUserMessageParam;
+import com.openai.models.chat.completions.*;
 import tools.ToolsManager;
 
 import java.util.ArrayList;
@@ -54,6 +51,7 @@ public class Main {
             if (response.choices().isEmpty()) {
                 throw new RuntimeException("no choices in response");
             }
+            messages.add(ChatCompletionMessageParam.ofAssistant(response.choices().getFirst().message().toParam()));
             toolCallLoop(response, messages);
         } while (response.choices().getFirst().message().toolCalls().isPresent());
         // You can use print statements as follows for debugging, they'll be visible when running tests.
