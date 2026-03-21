@@ -14,7 +14,9 @@ public class ToolsManager {
         List<ChatCompletionTool> tools = new ArrayList<>();
 
         ChatCompletionTool readTool = ReadTool.build();
+        ChatCompletionTool writeTool = WriteTool.build();
         tools.add(readTool);
+        tools.add(writeTool);
         return tools;
     }
     public static void toolCallLoop(ChatCompletion response, List<ChatCompletionMessageParam> messages){

@@ -68,6 +68,6 @@ public class WriteTool{
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        return ReadTool.execute(argsNode);
+        return "Successfully wrote to " + filePath;
     }
 };
