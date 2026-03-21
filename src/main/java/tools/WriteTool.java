@@ -31,14 +31,8 @@ public class WriteTool{
                                         Map.of(
                                                 "type", "string",
                                                 "description",
-                                                "the path to the file to write on")
-                                )
-                        ))
-                .putAdditionalProperty(
-                        "properties",
-                        JsonValue.from(
-                                Map.of(
-                                        "Content",
+                                                "the path to the file to write on"),
+                                        "content",
                                         Map.of(
                                                 "type", "string",
                                                 "description",
