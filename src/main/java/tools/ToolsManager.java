@@ -36,7 +36,7 @@ public class ToolsManager {
                 switch (functionName) {
                     case "Read" -> {
                          messages.add(ChatCompletionMessageParam.ofTool(ChatCompletionToolMessageParam.builder()
-                                 .toolCallId("Read")
+                                 .toolCallId(tool.id())
                                  .content(ReadTool.execute(argsNode))
                                  .build()));
                     }
