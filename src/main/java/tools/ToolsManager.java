@@ -33,13 +33,12 @@ public class ToolsManager {
                 } catch (Exception e) {
                     throw new RuntimeException("Failed to parse arguments", e);
                 }
-
                 switch (functionName) {
                     case "Read" -> {
-                         messages.add(ChatCompletionMessageParam.ofUser(
-                                ChatCompletionUserMessageParam.builder()
-                                        .content(ReadTool.execute(argsNode))
-                                        .build()));
+                         messages.add(ChatCompletionMessageParam.ofTool(ChatCompletionToolMessageParam.builder()
+                                 .toolCallId("Read")
+                                 .content(ReadTool.execute(argsNode))
+                                 .build()));
                     }
                     default -> throw new RuntimeException("Unknown function: " + functionName);
                 }
