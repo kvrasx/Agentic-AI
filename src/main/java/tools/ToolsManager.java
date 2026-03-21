@@ -11,9 +11,9 @@ import java.util.Optional;
 public class ToolsManager {
     public static List<ChatCompletionTool> getAvailableTools() {
 
-        ChatCompletionTool readTool = ReadTool.build();
-
         List<ChatCompletionTool> tools = new ArrayList<>();
+
+        ChatCompletionTool readTool = ReadTool.build();
         tools.add(readTool);
         return tools;
     }
@@ -39,6 +39,12 @@ public class ToolsManager {
                                  .toolCallId(tool.id())
                                  .content(ReadTool.execute(argsNode))
                                  .build()));
+                    }
+                    case "Write" -> {
+                        messages.add(ChatCompletionMessageParam.ofTool(ChatCompletionToolMessageParam.builder()
+                                .toolCallId(tool.id())
+                                .content(WriteTool.execute(argsNode))
+                                .build()));
                     }
                     default -> throw new RuntimeException("Unknown function: " + functionName);
                 }

@@ -43,8 +43,8 @@ public class Main {
 
             response = client.chat().completions().create(
                     ChatCompletionCreateParams.builder()
-                            .model("anthropic/claude-haiku-4.5")
-//                            .model("anthropic/claude-sonnet-4.6")
+//                            .model("anthropic/claude-haiku-4.5")
+                            .model("gpt-oss-20b")
                             .messages(messages)
                             .tools(ToolsManager.getAvailableTools())
                             .build());
