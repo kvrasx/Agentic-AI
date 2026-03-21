@@ -45,24 +45,16 @@ public class ReadTool{
                                 .build())
                 .build();
     }
-    public static void execute(String arguments) {
-        JsonNode argsNode;
-        ObjectMapper mapper = new ObjectMapper();
-
-        try {
-            argsNode = mapper.readTree(arguments);
-        } catch (Exception e) {
-            throw new RuntimeException("Failed to parse arguments", e);
-        }
+    public static String execute(JsonNode argsNode) {
 
         String filePath = argsNode.get("filepath").asText();
+        String fileContent;
         File objectFile = new File(filePath);
         try {
-            String fileContent = Files.readString(objectFile.toPath());
-            System.out.println(fileContent);
+            fileContent = Files.readString(objectFile.toPath());
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-
+        return(fileContent);
     }
 };

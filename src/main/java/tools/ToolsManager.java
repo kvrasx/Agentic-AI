@@ -1,8 +1,8 @@
 package tools;
 
-import com.openai.models.chat.completions.ChatCompletion;
-import com.openai.models.chat.completions.ChatCompletionMessageToolCall;
-import com.openai.models.chat.completions.ChatCompletionTool;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.openai.models.chat.completions.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,17 +17,29 @@ public class ToolsManager {
         tools.add(readTool);
         return tools;
     }
-    public static void toolCallLoop(ChatCompletion response){
-        Optional<List<ChatCompletionMessageToolCall>> tools = response.choices().get(0).message().toolCalls();
+    public static void toolCallLoop(ChatCompletion response, List<ChatCompletionMessageParam> messages){
+        Optional<List<ChatCompletionMessageToolCall>> tools = response.choices().getFirst().message().toolCalls();
+
         tools.ifPresent(toolList -> {
             for (ChatCompletionMessageToolCall tool : toolList) {
 
                 String functionName = tool.function().name();
                 String arguments = tool.function().arguments();
+                JsonNode argsNode;
+                ObjectMapper mapper = new ObjectMapper();
+
+                try {
+                    argsNode = mapper.readTree(arguments);
+                } catch (Exception e) {
+                    throw new RuntimeException("Failed to parse arguments", e);
+                }
 
                 switch (functionName) {
                     case "Read" -> {
-                        ReadTool.execute(arguments);
+                         messages.add(ChatCompletionMessageParam.ofUser(
+                                ChatCompletionUserMessageParam.builder()
+                                        .content(ReadTool.execute(argsNode))
+                                        .build()));
                     }
                     default -> throw new RuntimeException("Unknown function: " + functionName);
                 }
