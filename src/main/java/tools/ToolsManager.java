@@ -15,8 +15,10 @@ public class ToolsManager {
 
         ChatCompletionTool readTool = ReadTool.build();
         ChatCompletionTool writeTool = WriteTool.build();
+        ChatCompletionTool bashTool = BashTool.build();
         tools.add(readTool);
         tools.add(writeTool);
+        tools.add(bashTool);
         return tools;
     }
     public static void toolCallLoop(ChatCompletion response, List<ChatCompletionMessageParam> messages){
@@ -46,6 +48,12 @@ public class ToolsManager {
                         messages.add(ChatCompletionMessageParam.ofTool(ChatCompletionToolMessageParam.builder()
                                 .toolCallId(tool.id())
                                 .content(WriteTool.execute(argsNode))
+                                .build()));
+                    }
+                    case "Bash" -> {
+                        messages.add(ChatCompletionMessageParam.ofTool(ChatCompletionToolMessageParam.builder()
+                                .toolCallId(tool.id())
+                                .content(BashTool.execute(argsNode))
                                 .build()));
                     }
                     default -> throw new RuntimeException("Unknown function: " + functionName);
