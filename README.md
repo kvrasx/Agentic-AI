@@ -1,35 +1,151 @@
 [![progress-banner](https://backend.codecrafters.io/progress/claude-code/b8415420-9743-4b82-aa51-9c92bcc825b5)](https://app.codecrafters.io/users/codecrafters-bot?r=2qF)
 
-This is a starting point for Java solutions to the
-["Build Your own Claude Code" Challenge](https://codecrafters.io/challenges/claude-code).
+# 🧠 Claude Code (Java) — LLM-Powered Coding Agent
 
-Claude Code is an AI coding assistant that uses Large Language Models (LLMs) to
-understand code and perform actions through tool calls. In this challenge,
-you'll build your own Claude Code from scratch by implementing an LLM-powered
-coding assistant.
+A lightweight, from-scratch implementation of an **agentic AI coding assistant**, inspired by Claude Code.
 
-Along the way you'll learn about HTTP RESTful APIs, OpenAI-compatible tool
-calling, agent loop, and how to integrate multiple tools into an AI assistant.
+This project demonstrates how to build a tool-using AI agent using **OpenAI-compatible function calling**, a custom **agent loop**, and modular **tool execution** — all in Java.
 
-**Note**: If you're viewing this repo on GitHub, head over to
-[codecrafters.io](https://codecrafters.io) to try the challenge.
+---
 
-# Passing the first stage
+## ✨ Features
 
-The entry point for your `claude-code` implementation is in
-`src/main/java/Main.java`. Study and uncomment the relevant code, and submit to
-pass the first stage:
+* 🔧 **Tool Calling Engine**
 
-```sh
+  * OpenAI-compatible function/tool calling
+  * Dynamic tool selection by the LLM
+
+* 🔁 **Agent Loop (Core Runtime)**
+
+  * Iterative reasoning loop (LLM → tool → result → LLM)
+  * Handles multi-step tasks autonomously
+
+* 🧠 **State Management**
+
+  * Conversation history tracking
+  * Context-aware responses
+
+* 🛠️ **Pluggable Tools**
+
+  * Easily extend with new capabilities (filesystem, shell, APIs, etc.)
+
+* 🌐 **HTTP Integration**
+
+  * Communicates with LLM APIs via REST
+
+---
+
+## 🏗️ Architecture
+
+This project implements a minimal **agent runtime**, composed of:
+
+```text
+User Input
+   ↓
+LLM (Planner)
+   ↓
+Tool Call Decision
+   ↓
+Tool Executor
+   ↓
+Result → back to LLM
+   ↓
+Final Response
+```
+
+### Core Components
+
+* **Agent Loop**
+  Controls execution flow and iterative reasoning
+
+* **Tool Executor**
+  Maps tool calls to actual Java functions
+
+* **Message State**
+  Maintains conversation history for context
+
+* **LLM Client**
+  Handles API communication with the model
+
+---
+
+## 🔁 Agent Loop (Simplified)
+
+```java
+while (true) {
+    Response response = llm(messages);
+
+    if (response.hasToolCall()) {
+        ToolResult result = executeTool(response.getToolCall());
+        messages.add(result);
+    } else {
+        return response;
+    }
+}
+```
+
+This loop is the **core primitive behind agentic AI systems**.
+
+---
+
+## 🚀 Getting Started
+
+### Prerequisites
+
+* Java 23
+* Maven
+
+### Run locally
+
+```bash
+./your_program.sh
+```
+
+### Submit (Codecrafters)
+
+```bash
 codecrafters submit
 ```
 
-# Stage 2 & beyond
+---
 
-Note: This section is for stages 2 and beyond.
+## 📦 Project Structure
 
-1. Ensure you have `mvn` installed locally.
-2. Run `./your_program.sh` to run your program, which is implemented in
-   `src/main/java/Main.java`.
-3. Run `codecrafters submit` to submit your solution to CodeCrafters. Test
-   output will be streamed to your terminal.
+```text
+src/main/java/
+ ├── Main.java          # Entry point
+ ├── Agent Loop         # Core reasoning loop
+ ├── Tool Handlers      # Tool implementations
+ └── LLM Client         # API integration
+```
+
+---
+
+## 🧩 Example Use Cases
+
+* Code explanation
+* File manipulation via tools
+* Multi-step reasoning tasks
+* Building autonomous dev assistants
+
+---
+
+## 📚 What I Learned
+
+This project deepened my understanding of:
+
+* Agentic AI system design
+* Tool calling & function schemas
+* State management in LLM workflows
+* Designing execution loops for autonomous agents
+
+---
+
+## 🔮 Future Improvements
+
+* Persistent memory (database / vector store)
+* Better planning (multi-step task decomposition)
+* Tool reliability (retries, error handling)
+* Streaming responses
+* Multi-agent collaboration
+
